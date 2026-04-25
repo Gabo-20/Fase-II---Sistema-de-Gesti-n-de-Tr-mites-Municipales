@@ -1,0 +1,98 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── Modelos (se irán completando por sprint) ───────────────────────────────
+
+model Usuario {
+  id            String      @id @default(uuid())
+  dpi           String      @unique @db.VarChar(13)
+  nombre        String      @db.VarChar(150)
+  correo        String      @unique @db.VarChar(200)
+  passwordHash  String      @db.VarChar(255)
+  rol           Rol         @default(CIUDADANO)
+  activo        Boolean     @default(true)
+  creadoEn      DateTime    @default(now())
+
+  solicitudes         Solicitud[] @relation("SolicitudesCiudadano")
+  solicitudesAsignadas Solicitud[] @relation("SolicitudesFuncionario")
+
+  @@map("usuarios")
+}
+
+model TipoTramite {
+  id          Int         @id @default(autoincrement())
+  nombre      String      @db.VarChar(100)
+  descripcion String?     @db.Text
+  activo      Boolean     @default(true)
+
+  solicitudes Solicitud[]
+
+  @@map("tipos_tramite")
+}
+
+model Solicitud {
+  id               String          @id @default(uuid())
+  numeroExpediente String          @unique @db.VarChar(20)
+  ciudadanoId      String
+  tipoTramiteId    Int
+  funcionarioId    String?
+  estado           EstadoSolicitud @default(RECIBIDA)
+  fechaSolicitud   DateTime        @default(now())
+  fechaResolucion  DateTime?
+
+  ciudadano    Usuario     @relation("SolicitudesCiudadano",  fields: [ciudadanoId],   references: [id])
+  tipoTramite  TipoTramite @relation(fields: [tipoTramiteId], references: [id])
+  funcionario  Usuario?    @relation("SolicitudesFuncionario", fields: [funcionarioId], references: [id])
+
+  historial  HistorialEstado[]
+  documentos Documento[]
+
+  @@map("solicitudes")
+}
+
+model HistorialEstado {
+  id          Int             @id @default(autoincrement())
+  solicitudId String
+  estado      EstadoSolicitud
+  comentario  String?         @db.Text
+  creadoEn    DateTime        @default(now())
+
+  solicitud   Solicitud @relation(fields: [solicitudId], references: [id])
+
+  @@map("historial_estados")
+}
+
+model Documento {
+  id          Int      @id @default(autoincrement())
+  solicitudId String
+  nombre      String   @db.VarChar(255)
+  url         String   @db.VarChar(500)
+  creadoEn    DateTime @default(now())
+
+  solicitud   Solicitud @relation(fields: [solicitudId], references: [id])
+
+  @@map("documentos")
+}
+
+// ─── Enums ───────────────────────────────────────────────────────────────────
+
+enum Rol {
+  CIUDADANO
+  OPERADOR
+  SUPERVISOR
+  ADMIN
+}
+
+enum EstadoSolicitud {
+  RECIBIDA
+  EN_REVISION
+  APROBADA
+  RECHAZADA
+  SUBSANACION
+}
