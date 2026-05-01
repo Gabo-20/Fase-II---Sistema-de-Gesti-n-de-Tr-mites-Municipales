@@ -11,8 +11,8 @@ app.get('/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
-// Rutas (se irán agregando por sprint)
-// app.use('/api/auth',    require('./routes/auth'));
-// app.use('/api/tramites', require('./routes/tramites'));
+// Rutas
+app.use('/api/auth',     require('./routes/auth'));
+app.use('/api/tramites', require('./routes/tramites'));
 
 module.exports = app;
