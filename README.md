@@ -53,8 +53,8 @@ Servicios disponibles:
 
 | Nombre | Rol |
 |--------|-----|
-| Bryan Martínez | Backend |
-| (compañero) | Frontend |
+| Gabriel Perez | Backend |
+| Bryan Martinez | Frontend |
 
 ## Curso
 
