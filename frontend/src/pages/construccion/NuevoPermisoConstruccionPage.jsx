@@ -8,7 +8,7 @@ const INPUT = 'w-full rounded-lg border border-gray-300 bg-white px-3 py-2.5 tex
 
 export default function NuevoPermisoConstruccionPage() {
   const navigate = useNavigate()
-  const [form, setForm] = useState({ tipoTramiteId: '', direccion: '', descripcion: '' })
+  const [form, setForm] = useState({ tipoTramiteId: '', direccion: '' })
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
@@ -19,7 +19,10 @@ export default function NuevoPermisoConstruccionPage() {
     setError('')
     setLoading(true)
     try {
-      const { data } = await tramitesService.crearPermisoConstruccion(form)
+      const { data } = await tramitesService.crearPermisoConstruccion({
+        ...form,
+        tipoTramiteId: Number(form.tipoTramiteId),
+      })
       navigate(`/construccion/${data.id}`)
     } catch (err) {
       setError(err.response?.data?.error ?? err.response?.data?.mensaje ?? 'Error al crear el permiso')
@@ -66,18 +69,6 @@ export default function NuevoPermisoConstruccionPage() {
                 placeholder="Zona, colonia, dirección exacta..."
               />
             </div>
-          </div>
-
-          <div>
-            <label className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">Descripción de la obra</label>
-            <textarea
-              name="descripcion"
-              value={form.descripcion}
-              onChange={handleChange}
-              rows={4}
-              className={INPUT}
-              placeholder="Describe la obra a realizar..."
-            />
           </div>
 
           {error && (

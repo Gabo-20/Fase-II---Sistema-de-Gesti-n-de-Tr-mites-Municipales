@@ -8,7 +8,7 @@ const INPUT = 'w-full rounded-lg border border-gray-300 bg-white px-3 py-2.5 tex
 
 export default function NuevaLicenciaPage() {
   const navigate = useNavigate()
-  const [form, setForm] = useState({ tipoTramiteId: '', descripcion: '' })
+  const [form, setForm] = useState({ tipoTramiteId: '' })
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
@@ -19,7 +19,10 @@ export default function NuevaLicenciaPage() {
     setError('')
     setLoading(true)
     try {
-      const { data } = await tramitesService.crearLicencia(form)
+      const { data } = await tramitesService.crearLicencia({
+        ...form,
+        tipoTramiteId: Number(form.tipoTramiteId),
+      })
       navigate(`/licencias/${data.id}`)
     } catch (err) {
       setError(err.response?.data?.error ?? err.response?.data?.mensaje ?? 'Error al crear la solicitud')
@@ -51,20 +54,6 @@ export default function NuevaLicenciaPage() {
               <option value="1">Licencia comercial nueva</option>
               <option value="2">Renovación de licencia</option>
             </select>
-          </div>
-
-          <div>
-            <label className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">
-              Descripción del negocio
-            </label>
-            <textarea
-              name="descripcion"
-              value={form.descripcion}
-              onChange={handleChange}
-              rows={4}
-              className={INPUT}
-              placeholder="Describe brevemente tu negocio..."
-            />
           </div>
 
           {error && (
