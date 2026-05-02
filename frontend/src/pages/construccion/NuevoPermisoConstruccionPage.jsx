@@ -23,7 +23,7 @@ export default function NuevoPermisoConstruccionPage() {
         ...form,
         tipoTramiteId: Number(form.tipoTramiteId),
       })
-      navigate(`/construccion/${data.id}`)
+      navigate(`/construccion/${data.solicitud.id}`)
     } catch (err) {
       setError(err.response?.data?.error ?? err.response?.data?.mensaje ?? 'Error al crear el permiso')
     } finally {

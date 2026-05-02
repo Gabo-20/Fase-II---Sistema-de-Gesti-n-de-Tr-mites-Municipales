@@ -23,7 +23,7 @@ export default function NuevaLicenciaPage() {
         ...form,
         tipoTramiteId: Number(form.tipoTramiteId),
       })
-      navigate(`/licencias/${data.id}`)
+      navigate(`/licencias/${data.solicitud.id}`)
     } catch (err) {
       setError(err.response?.data?.error ?? err.response?.data?.mensaje ?? 'Error al crear la solicitud')
     } finally {

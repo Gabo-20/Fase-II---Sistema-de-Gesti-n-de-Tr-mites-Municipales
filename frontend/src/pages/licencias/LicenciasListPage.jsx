@@ -20,7 +20,8 @@ export default function LicenciasListPage() {
         const { data } = hasRole('OPERADOR', 'SUPERVISOR', 'ADMIN')
           ? await tramitesService.getSolicitudesPendientes()
           : await tramitesService.getMisSolicitudes()
-        setSolicitudes(data.solicitudes ?? data)
+        const todas = data.solicitudes ?? data
+        setSolicitudes(todas.filter(s => !s.tipoTramite?.nombre?.toLowerCase().includes('construcción')))
       } catch {
         setError('No se pudieron cargar las solicitudes')
       } finally {
