@@ -1,7 +1,3 @@
-#!/bin/bash
-# Script de configuración inicial del VPS (Ubuntu/Debian)
-# Correr UNA SOLA VEZ como root: bash vps-setup.sh
-
 set -e
 
 echo "── Actualizando sistema ──"
@@ -28,14 +24,13 @@ usermod -aG docker deploy
 echo "── Configurando SSH para el pipeline ──"
 mkdir -p /home/deploy/.ssh
 chmod 700 /home/deploy/.ssh
-# Pega aquí la clave pública del pipeline:
-# echo "ssh-ed25519 AAAA... azure-pipeline" >> /home/deploy/.ssh/authorized_keys
+
 chmod 600 /home/deploy/.ssh/authorized_keys
 chown -R deploy:deploy /home/deploy/.ssh
 
 echo "── Clonando repositorio ──"
 mkdir -p /opt/tramites-municipales
-git clone https://github.com/TU_USUARIO/tramites-municipales.git /opt/tramites-municipales
+git clone https://github.com/Gabo-20/Fase-II-Sistema-de-Gestion-de-Tramites-Municipales.git /opt/tramites-municipales
 chown -R deploy:deploy /opt/tramites-municipales
 
 echo ""
