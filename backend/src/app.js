@@ -12,7 +12,8 @@ app.get('/health', (req, res) => {
 });
 
 // Rutas
-app.use('/api/auth',     require('./routes/auth'));
-app.use('/api/tramites', require('./routes/tramites'));
+app.use('/api/auth',          require('./routes/auth'));
+app.use('/api/tramites',      require('./routes/tramites'));
+app.use('/api/tipos-tramite', require('./routes/tiposTramite'));
 
 module.exports = app;
