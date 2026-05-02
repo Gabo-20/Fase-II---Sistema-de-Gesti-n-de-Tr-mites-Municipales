@@ -22,11 +22,13 @@ export default function RegisterPage() {
     setLoading(true)
     try {
       const { dpi, nombre, correo, password } = form
-      const { data } = await authService.register({ dpi, nombre, correo, password })
+      await authService.register({ dpi, nombre, correo, password })
+      // El registro no devuelve token — hacemos login automático
+      const { data } = await authService.login({ correo, password })
       login(data.usuario, data.token)
       navigate('/dashboard')
     } catch (err) {
-      setError(err.response?.data?.mensaje ?? 'Error al registrarse')
+      setError(err.response?.data?.error ?? 'Error al registrarse')
     } finally {
       setLoading(false)
     }
