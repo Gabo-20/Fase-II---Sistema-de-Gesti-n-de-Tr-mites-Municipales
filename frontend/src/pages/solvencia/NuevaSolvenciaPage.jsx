@@ -1,0 +1,12 @@
+import NuevoTramitePage from '../../components/tramites/NuevoTramitePage'
+
+export default function NuevaSolvenciaPage() {
+  return (
+    <NuevoTramitePage
+      titulo="Nueva Solicitud de Solvencia"
+      keywords={['solvencia']}
+      backPath="/solvencia"
+      detallePath="/solvencia"
+    />
+  )
+}

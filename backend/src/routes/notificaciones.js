@@ -4,18 +4,24 @@ const { verificarToken } = require('../middlewares/auth');
 
 const prisma = new PrismaClient();
 
-// GET /api/notificaciones — historial de cambios de estado de las solicitudes del usuario
+// GET /api/notificaciones
+// CIUDADANO → cambios en sus solicitudes
+// OPERADOR+ → últimos 50 cambios en todas las solicitudes
 router.get('/', verificarToken, async (req, res) => {
   try {
+    const esCiudadano = req.usuario.rol === 'CIUDADANO';
+
     const historial = await prisma.historialEstado.findMany({
-      where: {
-        solicitud: { ciudadanoId: req.usuario.id },
-      },
+      where: esCiudadano
+        ? { solicitud: { ciudadanoId: req.usuario.id } }
+        : {},
       include: {
         solicitud: {
           select: {
+            id: true,
             numeroExpediente: true,
             tipoTramite: { select: { nombre: true } },
+            ciudadano: esCiudadano ? false : { select: { nombre: true, correo: true } },
           },
         },
       },

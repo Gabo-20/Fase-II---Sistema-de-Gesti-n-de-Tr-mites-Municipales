@@ -8,14 +8,28 @@ import {
   Bell,
   X,
   Landmark,
+  Users,
+  Receipt,
+  BadgeCheck,
+  AlertTriangle,
+  Home,
+  Tag,
+  CalendarClock,
 } from 'lucide-react'
 
 const NAV = [
-  { to: '/dashboard', label: 'Inicio', Icon: LayoutDashboard, roles: ['CIUDADANO', 'OPERADOR', 'SUPERVISOR', 'ADMIN'] },
-  { to: '/licencias', label: 'Licencias', Icon: FileText, roles: ['CIUDADANO', 'OPERADOR', 'SUPERVISOR', 'ADMIN'] },
-  { to: '/construccion', label: 'Construcción', Icon: Building2, roles: ['CIUDADANO', 'OPERADOR', 'SUPERVISOR', 'ADMIN'] },
-  { to: '/catastro', label: 'Catastro', Icon: Map, roles: ['OPERADOR', 'SUPERVISOR', 'ADMIN'] },
-  { to: '/notificaciones', label: 'Notificaciones', Icon: Bell, roles: ['CIUDADANO', 'OPERADOR', 'SUPERVISOR', 'ADMIN'] },
+  { to: '/dashboard',            label: 'Inicio',              Icon: LayoutDashboard, roles: ['CIUDADANO', 'OPERADOR', 'SUPERVISOR', 'ADMIN'] },
+  { to: '/licencias',            label: 'Licencias',           Icon: FileText,        roles: ['CIUDADANO', 'OPERADOR', 'SUPERVISOR', 'ADMIN'] },
+  { to: '/construccion',         label: 'Construcción',        Icon: Building2,       roles: ['CIUDADANO', 'OPERADOR', 'SUPERVISOR', 'ADMIN'] },
+  { to: '/impuestos',            label: 'Pago IUSI',           Icon: Receipt,         roles: ['CIUDADANO', 'OPERADOR', 'SUPERVISOR', 'ADMIN'] },
+  { to: '/solvencia',            label: 'Solvencia',           Icon: BadgeCheck,      roles: ['CIUDADANO', 'OPERADOR', 'SUPERVISOR', 'ADMIN'] },
+  { to: '/multas',               label: 'Multas',              Icon: AlertTriangle,   roles: ['CIUDADANO', 'OPERADOR', 'SUPERVISOR', 'ADMIN'] },
+  { to: '/residencia',           label: 'Residencia',          Icon: Home,            roles: ['CIUDADANO', 'OPERADOR', 'SUPERVISOR', 'ADMIN'] },
+  { to: '/rotulo',               label: 'Rótulos',             Icon: Tag,             roles: ['CIUDADANO', 'OPERADOR', 'SUPERVISOR', 'ADMIN'] },
+  { to: '/licencias-temporales', label: 'Lic. Temporales',     Icon: CalendarClock,   roles: ['CIUDADANO', 'OPERADOR', 'SUPERVISOR', 'ADMIN'] },
+  { to: '/catastro',             label: 'Catastro',            Icon: Map,             roles: ['OPERADOR', 'SUPERVISOR', 'ADMIN'] },
+  { to: '/notificaciones',       label: 'Notificaciones',      Icon: Bell,            roles: ['CIUDADANO', 'OPERADOR', 'SUPERVISOR', 'ADMIN'] },
+  { to: '/admin/usuarios',       label: 'Usuarios',            Icon: Users,           roles: ['ADMIN'] },
 ]
 
 export default function Sidebar({ open, onClose }) {

@@ -1,6 +1,19 @@
 import { useAuth } from '../../context/AuthContext'
 import { Link } from 'react-router-dom'
-import { FileText, Building2, Map, Bell, ChevronRight } from 'lucide-react'
+import {
+  FileText,
+  Building2,
+  Map,
+  Bell,
+  ChevronRight,
+  Receipt,
+  BadgeCheck,
+  AlertTriangle,
+  Home,
+  Tag,
+  CalendarClock,
+  Users,
+} from 'lucide-react'
 
 const CARDS = [
   {
@@ -22,6 +35,60 @@ const CARDS = [
     roles: ['CIUDADANO', 'OPERADOR', 'SUPERVISOR', 'ADMIN'],
   },
   {
+    title: 'Pago de IUSI',
+    desc: 'Gestiona el impuesto único sobre inmuebles de tus propiedades.',
+    href: '/impuestos',
+    Icon: Receipt,
+    accent: 'border-orange-200 dark:border-orange-900/50',
+    iconBg: 'bg-orange-50 text-orange-600 dark:bg-orange-900/30 dark:text-orange-400',
+    roles: ['CIUDADANO', 'OPERADOR', 'SUPERVISOR', 'ADMIN'],
+  },
+  {
+    title: 'Certificado de Solvencia',
+    desc: 'Solicita constancias de solvencia municipal para trámites legales.',
+    href: '/solvencia',
+    Icon: BadgeCheck,
+    accent: 'border-teal-200 dark:border-teal-900/50',
+    iconBg: 'bg-teal-50 text-teal-600 dark:bg-teal-900/30 dark:text-teal-400',
+    roles: ['CIUDADANO', 'OPERADOR', 'SUPERVISOR', 'ADMIN'],
+  },
+  {
+    title: 'Pago de Multas',
+    desc: 'Consulta y cancela multas municipales pendientes.',
+    href: '/multas',
+    Icon: AlertTriangle,
+    accent: 'border-red-200 dark:border-red-900/50',
+    iconBg: 'bg-red-50 text-red-600 dark:bg-red-900/30 dark:text-red-400',
+    roles: ['CIUDADANO', 'OPERADOR', 'SUPERVISOR', 'ADMIN'],
+  },
+  {
+    title: 'Constancia de Residencia',
+    desc: 'Obtén tu certificado de residencia municipal.',
+    href: '/residencia',
+    Icon: Home,
+    accent: 'border-indigo-200 dark:border-indigo-900/50',
+    iconBg: 'bg-indigo-50 text-indigo-600 dark:bg-indigo-900/30 dark:text-indigo-400',
+    roles: ['CIUDADANO', 'OPERADOR', 'SUPERVISOR', 'ADMIN'],
+  },
+  {
+    title: 'Permiso de Rótulo',
+    desc: 'Autorización para instalación de rótulos y publicidad exterior.',
+    href: '/rotulo',
+    Icon: Tag,
+    accent: 'border-pink-200 dark:border-pink-900/50',
+    iconBg: 'bg-pink-50 text-pink-600 dark:bg-pink-900/30 dark:text-pink-400',
+    roles: ['CIUDADANO', 'OPERADOR', 'SUPERVISOR', 'ADMIN'],
+  },
+  {
+    title: 'Licencias Temporales',
+    desc: 'Permisos de operación temporal para eventos y actividades.',
+    href: '/licencias-temporales',
+    Icon: CalendarClock,
+    accent: 'border-violet-200 dark:border-violet-900/50',
+    iconBg: 'bg-violet-50 text-violet-600 dark:bg-violet-900/30 dark:text-violet-400',
+    roles: ['CIUDADANO', 'OPERADOR', 'SUPERVISOR', 'ADMIN'],
+  },
+  {
     title: 'Catastro Municipal',
     desc: 'Administración de inmuebles y propietarios.',
     href: '/catastro',
@@ -38,6 +105,15 @@ const CARDS = [
     accent: 'border-purple-200 dark:border-purple-900/50',
     iconBg: 'bg-purple-50 text-purple-600 dark:bg-purple-900/30 dark:text-purple-400',
     roles: ['CIUDADANO', 'OPERADOR', 'SUPERVISOR', 'ADMIN'],
+  },
+  {
+    title: 'Gestión de Usuarios',
+    desc: 'Administra roles y acceso de los usuarios del sistema.',
+    href: '/admin/usuarios',
+    Icon: Users,
+    accent: 'border-gray-200 dark:border-gray-700',
+    iconBg: 'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400',
+    roles: ['ADMIN'],
   },
 ]
 

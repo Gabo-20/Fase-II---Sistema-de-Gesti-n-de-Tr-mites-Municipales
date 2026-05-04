@@ -2,13 +2,13 @@ import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { tramitesService } from '../../services/tramitesService'
 import { useAuth } from '../../context/AuthContext'
-import EstadoBadge from '../../components/ui/EstadoBadge'
-import Spinner from '../../components/ui/Spinner'
+import EstadoBadge from '../ui/EstadoBadge'
+import Spinner from '../ui/Spinner'
 import { ArrowLeft, Clock, User, FileText } from 'lucide-react'
 
 const INPUT = 'w-full rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:focus:border-blue-500'
 
-export default function LicenciaDetallePage() {
+export default function TramiteDetallePage({ backPath, backLabel = 'Volver al listado' }) {
   const { id } = useParams()
   const navigate = useNavigate()
   const { hasRole } = useAuth()
@@ -20,9 +20,9 @@ export default function LicenciaDetallePage() {
   useEffect(() => {
     tramitesService.getSolicitudById(id)
       .then(({ data }) => setSolicitud(data))
-      .catch(() => navigate('/licencias'))
+      .catch(() => navigate(backPath))
       .finally(() => setLoading(false))
-  }, [id, navigate])
+  }, [id, navigate, backPath])
 
   const handleResolver = async (e) => {
     e.preventDefault()
@@ -37,13 +37,11 @@ export default function LicenciaDetallePage() {
     }
   }
 
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center py-24">
-        <Spinner size="lg" className="text-blue-600 dark:text-blue-400" />
-      </div>
-    )
-  }
+  if (loading) return (
+    <div className="flex items-center justify-center py-24">
+      <Spinner size="lg" className="text-blue-600 dark:text-blue-400" />
+    </div>
+  )
   if (!solicitud) return null
 
   const puedeResolver =
@@ -53,11 +51,11 @@ export default function LicenciaDetallePage() {
   return (
     <div className="animate-fade-in-up space-y-5">
       <button
-        onClick={() => navigate('/licencias')}
+        onClick={() => navigate(backPath)}
         className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400"
       >
         <ArrowLeft size={15} />
-        Volver al listado
+        {backLabel}
       </button>
 
       <div className="max-w-2xl rounded-xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900">
@@ -71,7 +69,7 @@ export default function LicenciaDetallePage() {
           <EstadoBadge estado={solicitud.estado} />
         </div>
 
-        <div className="p-6 space-y-6">
+        <div className="space-y-6 p-6">
           <dl className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div className="rounded-lg bg-gray-50 px-4 py-3 dark:bg-gray-800/60">
               <dt className="text-xs font-medium uppercase tracking-wide text-gray-400 dark:text-gray-500">Tipo de trámite</dt>
@@ -83,6 +81,15 @@ export default function LicenciaDetallePage() {
                 {new Date(solicitud.fechaSolicitud).toLocaleDateString('es-GT')}
               </dd>
             </div>
+            {solicitud.ciudadano && hasRole('OPERADOR', 'SUPERVISOR', 'ADMIN') && (
+              <div className="rounded-lg bg-gray-50 px-4 py-3 dark:bg-gray-800/60 sm:col-span-2">
+                <dt className="flex items-center gap-1.5 text-xs font-medium uppercase tracking-wide text-gray-400 dark:text-gray-500">
+                  <User size={11} /> Ciudadano
+                </dt>
+                <dd className="mt-1 text-sm font-semibold text-gray-800 dark:text-gray-200">{solicitud.ciudadano.nombre}</dd>
+                <dd className="text-xs text-gray-400">{solicitud.ciudadano.correo}</dd>
+              </div>
+            )}
             {solicitud.funcionario && (
               <div className="rounded-lg bg-gray-50 px-4 py-3 dark:bg-gray-800/60 sm:col-span-2">
                 <dt className="flex items-center gap-1.5 text-xs font-medium uppercase tracking-wide text-gray-400 dark:text-gray-500">
@@ -102,11 +109,11 @@ export default function LicenciaDetallePage() {
                 {solicitud.historial.map((h, i) => (
                   <li
                     key={h.id}
-                    className="animate-slide-in-left flex items-start gap-3 rounded-lg border border-gray-100 bg-gray-50 px-4 py-3 text-sm dark:border-gray-800 dark:bg-gray-800/40"
+                    className="flex items-start gap-3 rounded-lg border border-gray-100 bg-gray-50 px-4 py-3 text-sm dark:border-gray-800 dark:bg-gray-800/40"
                     style={{ animationDelay: `${i * 50}ms` }}
                   >
                     <EstadoBadge estado={h.estado} />
-                    <div className="flex-1 min-w-0">
+                    <div className="min-w-0 flex-1">
                       {h.comentario && <p className="text-gray-600 dark:text-gray-400">{h.comentario}</p>}
                       <p className="mt-0.5 text-xs text-gray-400 dark:text-gray-500">
                         {new Date(h.creadoEn).toLocaleString('es-GT')}
@@ -128,6 +135,7 @@ export default function LicenciaDetallePage() {
                 className={INPUT}
               >
                 <option value="">Selecciona acción...</option>
+                <option value="EN_REVISION">Poner en revisión</option>
                 <option value="APROBADA">Aprobar</option>
                 <option value="RECHAZADA">Rechazar</option>
                 <option value="SUBSANACION">Solicitar subsanación</option>
@@ -137,7 +145,7 @@ export default function LicenciaDetallePage() {
                 onChange={(e) => setResolucion({ ...resolucion, comentario: e.target.value })}
                 rows={2}
                 required
-                  placeholder="Comentario requerido..."
+                placeholder="Comentario requerido..."
                 className={INPUT}
               />
               <button
