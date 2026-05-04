@@ -6,14 +6,12 @@ services:
     ports:
       - "3000:3000"
     env_file: ./backend/.env
-    environment:
-      PRISMA_QUERY_ENGINE_LIBRARY: /app/node_modules/.prisma/client/libquery_engine-linux-musl-openssl-3.0.x.so.node
     volumes:
       - ./backend/src:/app/src   # hot reload sin reconstruir imagen
     depends_on:
       db:
         condition: service_healthy
-    command: node src/server.js
+    command: npm run dev
 
   db:
     image: mariadb:10.11

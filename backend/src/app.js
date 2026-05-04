@@ -12,8 +12,9 @@ app.get('/health', (req, res) => {
 });
 
 // Rutas
-app.use('/api/auth',          require('./routes/auth'));
-app.use('/api/tramites',      require('./routes/tramites'));
-app.use('/api/tipos-tramite', require('./routes/tiposTramite'));
+app.use('/api/auth',           require('./routes/auth'));
+app.use('/api/tramites',       require('./routes/tramites'));
+app.use('/api/tipos-tramite',  require('./routes/tiposTramite'));
+app.use('/api/notificaciones', require('./routes/notificaciones'));
 
 module.exports = app;

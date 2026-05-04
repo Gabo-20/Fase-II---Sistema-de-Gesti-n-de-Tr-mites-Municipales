@@ -19,6 +19,9 @@ export const tramitesService = {
 
   getSolicitudesPendientes: () => api.get('/tramites/pendientes'),
 
+  // ── Notificaciones ────────────────────────────────────────────────────────
+  getNotificaciones: () => api.get('/notificaciones'),
+
   // ── Pendiente Sprint 3 ────────────────────────────────────────────────────
   actualizarPropietario: (id, data) => api.put(`/tramites/catastro/${id}/propietario`, data),
   solicitarDeslinde: (data) => api.post('/tramites/catastro/deslinde', data),
